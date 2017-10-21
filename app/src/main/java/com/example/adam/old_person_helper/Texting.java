@@ -1,10 +1,13 @@
 package com.example.adam.old_person_helper;
 import android.Manifest;
 import  	android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -63,12 +66,6 @@ public class Text_Screen extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     ArrayList<String> smsMessagesList = new ArrayList<>();
     ListView messages;
     ArrayAdapter arrayAdapter;
@@ -79,7 +76,7 @@ public class Text_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.text_screen); //text_screen is the name of the screen for texting
         messages = (ListView) findViewById(R.id.messages); //messages is the list of the messages in the texting screen
-        input = (EditText) findViewById(R.id.input);
+        input = (EditText) findViewById(R.id.input);        //input is the textbox fo
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, smsMessagesList);
         messages.setAdapter(arrayAdapter);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
@@ -90,3 +87,18 @@ public class Text_Screen extends AppCompatActivity {
         }
     }
 
+    public void refreshSmsInbox() {
+        ContentResolver contentResolver = getContentResolver();
+        Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, null, null, null);
+        int indexBody = smsInboxCursor.getColumnIndex("body");
+        int indexAddress = smsInboxCursor.getColumnIndex("address");
+        if (indexBody < 0 || !smsInboxCursor.moveToFirst()) return;
+        arrayAdapter.clear();
+        do {
+            String str = "SMS From: " + smsInboxCursor.getString(indexAddress) +
+                    "\n" + smsInboxCursor.getString(indexBody) + "\n";
+            arrayAdapter.add(str);
+        } while (smsInboxCursor.moveToNext());
+    }
+
+}
