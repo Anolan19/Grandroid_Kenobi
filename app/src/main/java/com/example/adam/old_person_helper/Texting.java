@@ -1,4 +1,4 @@
-package com.example.adam.old_person_helper;
+/*package com.example.adam.old_person_helper;
 import android.Manifest;
 import  	android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -14,6 +14,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by adam on 10/21/17.
  */
-
+/*
 public class Texting {
     private SharedPreferences preferences;
 
@@ -101,4 +104,58 @@ public class Text_Screen extends AppCompatActivity {
         } while (smsInboxCursor.moveToNext());
     }
 
+
+    EditText input;
+    SmsManager smsManager = SmsManager.getDefault();
+
+    public void onSendClick(View view) {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            getPermissionToReadSMS();
+        } else {
+            smsManager.sendTextMessage("YOUR PHONE NUMBER HERE", null, input.getText().toString(), null, null);
+            Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static Text_Screen instance() {
+        return inst;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        inst = this;
+    }
+
+    public class SmsBroadcastReceiver extends BroadcastReceiver {
+
+        public static final String SMS_BUNDLE = "pdus";
+
+        public void onReceive(Context context, Intent intent) {
+            Bundle intentExtras = intent.getExtras();
+
+            if (intentExtras != null) {
+                Object[] sms = (Object[]) intentExtras.get(SMS_BUNDLE);
+                String smsMessageStr = "";
+                for (int i = 0; i < sms.length; ++i) {
+                    String format = intentExtras.getString("format");
+                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i], format);
+
+                    String smsBody = smsMessage.getMessageBody().toString();
+                    String address = smsMessage.getOriginatingAddress();
+
+                    smsMessageStr += "SMS From: " + address + "\n";
+                    smsMessageStr += smsBody + "\n";
+                }
+
+                Text_Screen inst = Text_Screen.instance();
+                inst.updateInbox(smsMessageStr);
+            }
+        }
+    }
+
+
 }
+*/
