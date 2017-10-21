@@ -13,7 +13,21 @@ import android.widget.Button;
  * Created by adam on 10/21/17.
  */
 
-public class Phone {
+public class Phone extends AppCompatActivity implements OnClickListener{
+
+
+    @Override
+    public void onClick(View v) {
+        launchDialer("0");
+    }
+
+
+    // Launch the dialer
+
+    public void launchDialer(String number){
+        String numberToDial = "tel:"+number;
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(numberToDial)));
+    }
 
 
 }
