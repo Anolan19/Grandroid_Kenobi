@@ -103,3 +103,6 @@
     <category android:name="android.intent.category.DEFAULT" />
 </intent-filter>
 
+
+<uses-permission android:name="android.permission.INTERNET" />
+
