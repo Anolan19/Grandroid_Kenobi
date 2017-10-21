@@ -65,6 +65,7 @@ public class Homescreen extends AppCompatActivity {
     private int n() {
         return 4;
     }
+    private int n1 () {return 5;}
     private final Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
