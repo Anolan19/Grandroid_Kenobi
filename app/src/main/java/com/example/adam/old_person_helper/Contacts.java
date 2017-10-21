@@ -5,5 +5,5 @@ package com.example.adam.old_person_helper;
  */
 
 public class Contacts {
-    
+
 }
