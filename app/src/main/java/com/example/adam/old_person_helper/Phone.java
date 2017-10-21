@@ -18,7 +18,7 @@ public class Phone extends AppCompatActivity implements OnClickListener{
 
     @Override
     public void onClick(View v) {
-        launchDialer("0");
+        launchDialer("1");
     }
 
 
